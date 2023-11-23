@@ -1,25 +1,19 @@
-const express = require('express')
-const app = express()
-const path = require('path')
-const { engine } = require('express-handlebars');
+const express  = require('express');
+const { engine } = require('express-handlebars')
+const path = require('path');
+const app = express();
 
-//static folder path 
-app.use(express.static(path.join(__dirname, 'public')))
-
-
-//handlebars & middleware 
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
-//routing functions
-app.get('/',(req,res,next)=>{
-    return res.render('home')
-})
+app.get('/', (req, res) => {
+    res.render('home');
+});
 
 
-//server
-const PORT = process.env.PORT || 3003;
-app.listen(PORT, ()=>console.log('server listening on PORT http://localhost:3003'))
+app.use(express.static(path.join(__dirname ,'./public')));
 
-module.exports = app;
+app.listen(3000, function(){
+    console.log('Server is running on http://localhost:3000/');
+});
