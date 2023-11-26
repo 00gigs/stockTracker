@@ -39,7 +39,10 @@ app.post('/stock/search', (req, res) => {
 // maybe (body.results.t =) ?
     request.get(SRCH, (error, response, body) => {
         if(response.statusCode === 200){
-            res.render('home',{data:body})
+            const parseData_ = JSON.parse(body)
+            const stockData = parseData_.results
+            console.log(stockData)
+            res.render('home',{data:stockData})
         }else{
             res.render('home',{data:'Error fetching stock data'})
         }
