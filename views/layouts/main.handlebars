@@ -17,16 +17,16 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        
-        <li class="nav-item">
-          <a class="nav-link" href="/about">About</a>
-        </li>
-        
-      </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-secondary" type="submit">Search</button>
+      
+      <form class="d-flex" role="search" action="/" method="post">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="stockTicker">
+        <input class="form-control me-2" type="multiplier" placeholder="multiplier" aria-label="Search" name="stockTicker">
+        <input class="form-control me-2" type="timespan" placeholder="timespan" aria-label="Search" name="stockTicker">
+        <input class="form-control me-2" type="from" placeholder="from" aria-label="Search" name="stockTicker">
+        <input class="form-control me-2" type="to" placeholder="to" aria-label="Search" name="stockTicker">
+        <div class="d-grid gap-2 col-6 mx-auto">
+        <button class="btn btn-outline-secondary" type="submit">Stock Search</button>
+        <div/>
       </form>
     </div>
   </div>

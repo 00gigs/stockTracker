@@ -10,10 +10,12 @@ in req.body in the
 route handler.*/
 
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
+
+//request function to fecth body response 
 function call_api(finishedApi){
-    request('https://api.polygon.io/v2/aggs/ticker/MSFT/range/1/day/2023-11-14/2023-11-14?apiKey=Xgg56njTfzk_JUcF1DYU78P2ngak_h8K',{json:true},(err,res,body)=>{
+    request('https://api.polygon.io/v2/aggs/ticker/META/range/1/day/2023-11-14/2023-11-14?apiKey=Xgg56njTfzk_JUcF1DYU78P2ngak_h8K',{json:true},(err,res,body)=>{
         if(err){return console.log(err)}
         if(res.statusCode === 200){
            // console.log(body) 
@@ -21,13 +23,20 @@ function call_api(finishedApi){
         }
     })
 }
+
+//get route 
 app.get('/', function (req, res) {
     call_api(function(doneApi){
         res.render('home',{stock:doneApi})
         })
 })
-
-
+//post route
+app.post('/', function (req, res) {
+    ticker = req.body.stockTicker
+    call_api(function(doneApi){
+        res.render('home',{stock:doneApi})
+        })
+})
 
 
 

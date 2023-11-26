@@ -7,29 +7,27 @@
     <title>handlebars homepage</title>
 </head>
 <body>
-
-{{!--use form to send post route to be used in the search stock route--}} 
-<form action="/stock/search" method="post">
-    <h1>Stockzly homepage </h1>
-    <input type="text" placeholder="Search Stock" id="stocksTicker" name="stocksTicker" maxlength="4"><br>
-    <input type="text" placeholder="Window Increment" id="multiplier" name="multiplier"><br>
-    <input type="text" placeholder="time Span" id="timeSpan" name="timeSpan"><br>
-    <input type="text" placeholder="From" id="searchStock_start" name="searchStock_start"><br>
-    <input type="text" placeholder="To" id="searchStock_end" name="searchStock_end"><br>
-    <button type="submit">Search</button>
-</form>
 {{!--THIS IS HANDLEBARS COMMENT SYNTAX--}}
 <br>
-
-
-{{!--iterate loop 2 times because the results is inside of an array and you have to iterate over the array--}}
+{{ticker}}
+<div class="card mb-3 class=p-3 mb-2 bg-secondary text-white style= width: 18rem  text-center ;" >
+     <div class="card-header bg-info">Stock</div>
+  <div class="card-body card-bg">
+    <h5 class="card-title"> <b> {{stock.ticker}}</b>  </h5>
+    <p class="card-text">   
+{{!--basically stock.results.this.👇🏻--}}
 {{#each stock.results}}
-    {{#each this}}
-    {{@key}}:{{this}}<br>
-     {{/each}}
-     <hr>
+<strong>open</strong> {{this.o}} <br>
+<strong>close</strong> {{this.c}} <br>
+<strong>high</strong> {{this.h}} <br>
+<strong>low</strong> {{this.l}} <br>
+<strong>Volume_Weight_Avg.</strong> {{this.vw}} <br>
+<strong>timeStamp</strong> {{this.t}} <br>
 {{/each}}
-
+<br>
+ </p>
+    <a href="#" class="card-link">Another link</a></button>
+  </div>
+</div>
 </body>
 </html>
-
