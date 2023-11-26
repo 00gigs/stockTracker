@@ -20,25 +20,9 @@
 </form>
 {{!--THIS IS HANDLEBARS COMMENT SYNTAX--}}
 <br>
-{{#if data}}
-  {{#if data.results}}
-    {{#each data.results}}
-      <p>
-        Ticker: {{this.ticker}}<br>
-        Open: {{this.o}}<br>
-        Close: {{this.c}}<br>
-        High: {{this.h}}<br>
-        Low: {{this.l}}<br>
-        VWA: {{this.vw}}<br>
-        Time: {{this.t}}
-      </p>
-    {{/each}}
-  {{else}}
-    <p>NO DATA AVAILABLE</p>
-  {{/if}}
-{{else}}
-  <p>No Data Available</p>
-{{/if}}
+
+<p>{{stock}}</p>
+
 
 </body>
 </html>

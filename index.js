@@ -4,62 +4,43 @@ const request = require('request');
 const app = express();
 const bodyParser = require('body-parser');
 const { error } = require('console');
-
 /*The urlencoded method is specified with extended: true to use the qs library to parse the URL-encoded data. Without this middleware, 
 you would not be able to access the form data 
 in req.body in the 
 route handler.*/
+
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const api = 'Xgg56njTfzk_JUcF1DYU78P2ngak_h8K'
-const baseURL = 'https://api.polygon.io/v2'
-
-
-
-//  get method applied to API after post method to /stock/search from form data
-
-
-
-
-app.post('/stock/search', (req, res) => {
-    const {stocksTicker ,multiplier, timeSpan, searchStock_start, searchStock_end} = req.body;
-
-//const GET method route    
-    const SRCH = {
-        method: 'GET',
-        url:`${baseURL}/aggs/ticker/${stocksTicker}/range/${multiplier}/${timeSpan}/${searchStock_start}/${searchStock_end}`,
-        qs:{
-           apiKey:api
-        },
-        headers: {
-            Authorization: `Bearer ${api}`
-        }
-    }
-//refactor to be able to convert timestamp to 12 hr format (the time stamp is represented as t in the results)
-// maybe (body.results.t =) ?
-    request.get(SRCH, (error, response, body) => {
-        if(response.statusCode === 200){
-            const parseData_ = JSON.parse(body)
-            const stockData = parseData_.results
-            console.log(stockData)
-            res.render('home',{data:stockData})
-        }else{
-            res.render('home',{data:'Error fetching stock data'})
+function call_api(finishedApi){
+    request('https://api.polygon.io/v2/aggs/ticker/MSFT/range/1/day/2023-11-14/2023-11-14?apiKey=Xgg56njTfzk_JUcF1DYU78P2ngak_h8K',{json:true},(err,res,body)=>{
+        if(err){return console.log(err)}
+        if(res.statusCode === 200){
+           // console.log(body) 
+           finishedApi(body)
         }
     })
+}
+app.get('/', function (req, res) {
+    call_api(function(doneApi){
+        res.render('home',{stock:doneApi})
+        })
 })
 
 
 
 
 
+
+
+//refactor to be able to convert timestamp to 12 hr format (the time stamp is represented as t in the results)
+// maybe (body.results.t =) ?
+    
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
-app.get('/', function (req, res) {
-        res.render('home');
-    });
+
     
 
 
