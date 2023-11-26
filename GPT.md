@@ -1,45 +1,16 @@
+the t object in the body response is = The Unix Msec timestamp for the start of the aggregate window.
+e.g 1578027600000 =
+convert The Unix Msec timestamp into human readble code
+
+
+READ ME 👇🏻
 const express = require('express');
-const request = require('request');
-const url = require('url');
+const moment = require('moment');
 
 const app = express();
 
-const rapidApiKey = 'f0fb454bccmsh5dd8f95149ffa65p1f9ad6jsn0a2a30d55dda';
-const rapidApiHost = 'apistocks.p.rapidapi.com';
-const apiUrl = 'https://apistocks.p.rapidapi.com/weekly';
-
-app.get('/stocks/:symbol', (req, res) => {
-  const symbol = req.params.symbol;
-
-  const options = {
-    method: 'GET',
-    url: apiUrl,
-    qs: {
-      symbol: symbol,
-      dateStart: '2021-06-01',
-      dateEnd: '2021-07-31'
-    },
-    headers: {
-      'X-RapidAPI-Key': rapidApiKey,
-      'X-RapidAPI-Host': rapidApiHost
-    }
-  };
-
-  // Make a request using the constructed URL
-  request(options, (error, response, body) => {
-    if (error) {
-      res.status(500).send('Internal Server Error');
-    } else {
-      res.send(body);
-    }
-  });
+app.get('/', (req, res) => {
+  const timestamp = 1578027600000;
+  const date = moment(timestamp).format('hh:mm:ss A');
+  res.send(date);
 });
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
-
-
-

@@ -2,54 +2,49 @@ const express  = require('express');
 const { engine } = require('express-handlebars')
 const request = require('request');
 const app = express();
-const url = require('url');
 const bodyParser = require('body-parser');
+const { error } = require('console');
 
-const apiKey = 'f0fb454bccmsh5dd8f95149ffa65p1f9ad6jsn0a2a30d55dda'
-const apihost = 'apistocks.p.rapidapi.com'
+/*The urlencoded method is specified with extended: true to use the qs library to parse the URL-encoded data. Without this middleware, 
+you would not be able to access the form data 
+in req.body in the 
+route handler.*/
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const api = 'Xgg56njTfzk_JUcF1DYU78P2ngak_h8K'
+const baseURL = 'https://api.polygon.io/v2'
 
 
-//url paths for the API
-'https://apistocks.p.rapidapi.com/monthly'
-'https://apistocks.p.rapidapi.com/daily'
-'https://apistocks.p.rapidapi.com/intraday'
+
+//  get method applied to API after post method to /stock/search from form data
 
 
 
-app.get('/stocks/:symbol/:dateStart/:dateEnd', function(req, res){
-    const url_Weekly = 'https://apistocks.p.rapidapi.com/weekly'
-    const symbol = req.params.symbol 
-    const dateStart = req.params.dateStart 
-    const dateEnd = req.params.dateEnd
 
-    const options = {
-        method:'GET',
-        url:url_Weekly,
+app.post('/stock/search', (req, res) => {
+    const {stocksTicker ,multiplier, timeSpan, searchStock_start, searchStock_end} = req.body;
+
+//const GET method route    
+    const SRCH = {
+        method: 'GET',
+        url:`${baseURL}/aggs/ticker/${stocksTicker}/range/${multiplier}/${timeSpan}/${searchStock_start}/${searchStock_end}`,
         qs:{
-            symbol: symbol,
-            dateStart: dateStart,
-            dateEnd: dateEnd
+           apiKey:api
         },
         headers: {
-            'x-rapidapi-host': apihost,
-            'x-rapidapi-key': apiKey
+            Authorization: `Bearer ${api}`
         }
     }
-
-    //using the try/catch block to return ressponse in JSON format and return errorsshap
-    request(options, function (error, response, body) {
-           try {
-            const data = JSON.parse(body);
-            res.send(data);
-           } catch (error) {
-            console.error('Error parsing JSON:', error);
-            res.status(500).send('Internal Server Error');
-           }
-        });
+//refactor to be able to convert timestamp to 12 hr format (the time stamp is represented as t in the results)
+// maybe (body.results.t =) ?
+    request.get(SRCH, (error, response, body) => {
+        if(response.statusCode === 200){
+            res.render('home',{data:body})
+        }else{
+            res.render('home',{data:'Error fetching stock data'})
+        }
+    })
 })
-
-
-
 
 
 

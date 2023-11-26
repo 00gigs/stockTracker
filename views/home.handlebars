@@ -7,7 +7,36 @@
     <title>handlebars homepage</title>
 </head>
 <body>
+
+<!--use form to send post route to be used in the search stock route--> 
+<form action="/stock/search" method="post">
     <h1>Stockzly homepage </h1>
-    <p>{{stock}}</p>
+    <input type="text" placeholder="Search Stock" id="stocksTicker" name="stocksTicker" maxlength="4" style="text-transform: uppercase;"><br>
+    <input type="text" placeholder="Window Increment" id="multiplier" name="multiplier"><br>
+    <input type="text" placeholder="time Span" id="timeSpan" name="timeSpan"><br>
+    <input type="text" placeholder="From" id="searchStock_start" name="searchStock_start"><br>
+    <input type="text" placeholder="To" id="searchStock_end" name="searchStock_end"><br>
+    <button type="submit">Search</button>
+</form>
+<br>
+{{#if data}}
+<p>Data</p>
+    {{#each data.results}} 
+<p>
+<!--always use : not = when rendering objects from body-->
+    {{ticker}}:{{this.ticker}}<br>
+    {{VWA}}:{{this.vw}}
+    {{open}}:{{this.o}}
+    {{low}}:{{this.l}}
+    {{high}}:{{this.h}}
+    {{close}}:{{this.c}}<br>
+    {{Time}}:{{this.t}}
+</p>
+<!--a / will end the loop-->
+    {{/each}}
+{{else}}
+<p>NO STOCK INFORMATION AVAILABLE</p>
+{{/if}}
 </body>
 </html>
+
