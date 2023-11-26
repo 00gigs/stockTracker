@@ -21,8 +21,14 @@
 {{!--THIS IS HANDLEBARS COMMENT SYNTAX--}}
 <br>
 
-<p>{{stock}}</p>
 
+{{!--iterate loop 2 times because the results is inside of an array and you have to iterate over the array--}}
+{{#each stock.results}}
+    {{#each this}}
+    {{@key}}:{{this}}<br>
+     {{/each}}
+     <hr>
+{{/each}}
 
 </body>
 </html>
